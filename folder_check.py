@@ -96,7 +96,7 @@ def core():
             sleep(1)
 
 def open(file_path):
-    os.startfile(file_path)
+    subprocess.run(['open', file_path], check=True)
 
 def move_to_trash_folder(file_path):
     shutil.move(file_path, destination_folder)
