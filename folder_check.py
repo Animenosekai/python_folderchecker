@@ -37,10 +37,20 @@ def ask_for_folder_path():
     global folder_path
 
     print("What is the path to the folder you wanna check today?")
+    sleep(0.1)
     folder_path = input('> ')
-    if not os.path.isdir(folder_path):
+    indexes_of_slash = [i for i, ltr in enumerate(folder_path) if ltr == "\\"]
+    number_of_iterations = 0
+    for index in indexes_of_slash:
+        character_after_slash = folder_path[index + 1 - number_of_iterations]
+        print(character_after_slash)
+        if character_after_slash == ' ':
+            folder_path = folder_path[:index - number_of_iterations] + folder_path[index + 1 - number_of_iterations:]
+            number_of_iterations += 1
+    if folder_path.lower() == 'cancel' or folder_path.lower() == 'stop' or folder_path.lower() == 'quit' or folder_path.lower() == 'exit':
+        goodbye_message()
+    elif not os.path.isdir(folder_path):
         subprocess.call("clear", shell=True, universal_newlines=True)
-        print('')
         print('You mistyped something in your folder path')
         sleep(1)
         print('Please try again...')
@@ -142,7 +152,7 @@ def core():
                 reveal(file)
                 display_action('Revealing the file in your file explorer')
                 user_decision()
-            elif user_input.lower() == 'stop' or user_input.lower() == 'cancel':
+            elif user_input.lower() == 'stop' or user_input.lower() == 'cancel' or user_input.lower() == 'exit' or user_input.lower() == 'quit':
                 display_action('Stoping')
                 goodbye_message()
             elif user_input != '':
@@ -222,8 +232,6 @@ def core():
 
             summary_file.write("Here is the summary of all actions taken on the folder: {} \n".format(folder_name))
             summary_file.write(datetime.now().strftime("%B, the %d of %Y") + '\n')
-            summary_file.write('\n')
-            summary_file.write('\n')
 
             summary_file.write('\n')
             summary_file.write('\n')
