@@ -130,69 +130,69 @@ def core():
                 print('Next File!')
                 sleep(1)
         user_decision()
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print('Done!')
+    sleep(2)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Do you want a summary of all actions?")
+    user_choice_on_summary = input("Type [no] for no summary: ")
+    if user_choice_on_summary.lower() == 'no':
         subprocess.call("clear", shell=True, universal_newlines=True)
-        print('Done!')
+        print('Ok!')
         sleep(2)
+        goodbye_message()
+    else:
+        # Deleted files
         subprocess.call("clear", shell=True, universal_newlines=True)
-        print("Do you want a summary of all actions?")
-        user_choice_on_summary = input("Type [no] for no summary: ")
-        if user_choice_on_summary.lower() == 'no':
-            subprocess.call("clear", shell=True, universal_newlines=True)
-            print('Ok!')
-            sleep(2)
-            goodbye_message()
-        else:
-            # Deleted files
-            subprocess.call("clear", shell=True, universal_newlines=True)
-            print('Here are the permanently deleted files')
-            print('___________________________________________')
-            print('')
-            file_number = 0
-            for deletedfile in deletedfiles:
-                file_number += 1
-                print(deletedfile)
-            if file_number == 0:
-                print("No deleted file.")
-            print('')
-            print('Total: ' + str(file_number))
-            input('Press any key to continue...')
-            # Moved to trash files
-            subprocess.call("clear", shell=True, universal_newlines=True)
-            print('Here are the files moved to trash')
-            print('___________________________________________')
-            print('')
-            file_number = 0
-            for movedfile in moved_to_trash_files:
-                file_number += 1
-                print(movedfile)
-            if file_number == 0:
-                print("No file got moved to trash.")
-            print('')
-            print('Total: ' + str(file_number))
+        print('Here are the permanently deleted files')
+        print('___________________________________________')
+        print('')
+        file_number = 0
+        for deletedfile in deletedfiles:
+            file_number += 1
+            print(deletedfile)
+        if file_number == 0:
+            print("No deleted file.")
+        print('')
+        print('Total: ' + str(file_number))
+        input('Press any key to continue...')
+        # Moved to trash files
+        subprocess.call("clear", shell=True, universal_newlines=True)
+        print('Here are the files moved to trash')
+        print('___________________________________________')
+        print('')
+        file_number = 0
+        for movedfile in moved_to_trash_files:
+            file_number += 1
+            print(movedfile)
+        if file_number == 0:
+            print("No file got moved to trash.")
+        print('')
+        print('Total: ' + str(file_number))
 
-            input('Press any key to continue...')
+        input('Press any key to continue...')
 
-            # Kept files
-            for file in deletedfiles:
-                kept_files.remove(file)
-            for file in moved_to_trash_files:
-                kept_files.remove(file)
+        # Kept files
+        for file in deletedfiles:
+            kept_files.remove(file)
+        for file in moved_to_trash_files:
+            kept_files.remove(file)
 
-            subprocess.call("clear", shell=True, universal_newlines=True)
-            print('Here are the kept files')
-            print('___________________________________________')
-            print('')
-            file_number = 0
-            for file in kept_files:
-                file_number += 1
-                print(file)
-            if file_number == 0:
-                print("No file got kept in the folder.")
-            print('')
-            print('Total: ' + str(file_number))
+        subprocess.call("clear", shell=True, universal_newlines=True)
+        print('Here are the kept files')
+        print('___________________________________________')
+        print('')
+        file_number = 0
+        for file in kept_files:
+            file_number += 1
+            print(file)
+        if file_number == 0:
+            print("No file got kept in the folder.")
+        print('')
+        print('Total: ' + str(file_number))
 
-            input('Press any key to quit...')
-            goodbye_message()
+        input('Press any key to quit...')
+        goodbye_message()
 
 
 
