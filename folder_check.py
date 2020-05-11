@@ -75,17 +75,17 @@ def core():
                 print('Opening your file...')
                 sleep(2)
                 user_decision()
-            else if user_input is 'r' or user_input is 'remove':
+            elif user_input is 'r' or user_input is 'remove':
                 move_to_trash_folder(file)
                 print('Moving your file to the trash folder...')
                 sleep(2)
                 user_decision()
-            else if user_input is '-R' or user_input is 'removenow':
+            elif user_input is '-R' or user_input is 'removenow':
                 remove(file)
                 print('Deleting your file...')
                 sleep(2)
                 user_decision()
-            else if user_input is 'reveal' or user_input is 'rev':
+            elif user_input is 'reveal' or user_input is 'rev':
                 reveal(file)
                 print('Revealing in your file explorer...')
                 sleep(2)
