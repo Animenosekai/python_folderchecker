@@ -16,6 +16,9 @@ import shutil
 folder_path = ''
 folder_check_result_folder = ''
 destination_folder = ''
+deletedfiles = []
+moved_to_trash_files = []
+kept_files = []
 
 # Initialization
 def initialization():
@@ -85,6 +88,7 @@ def create_session_folder():
 # The core of the program, asking the user to take a decision on all files of the folder
 def core():
     list_of_files_in_folder = os.listdir(folder_path)
+    kept_files = list_of_files_in_folder
     for file in list_of_files_in_folder:
         if file == __file__:
             continue
@@ -118,7 +122,71 @@ def core():
         user_decision()
         subprocess.call("clear", shell=True, universal_newlines=True)
         print('Done!')
-        print()
+        sleep(2)
+        subprocess.call("clear", shell=True, universal_newlines=True)
+        print("Do you want a summary of all actions?")
+        user_choice_on_summary = input("Type [no] for no summary: ")
+        if user_choice_on_summary.lower() == 'no':
+            subprocess.call("clear", shell=True, universal_newlines=True)
+            print('Ok!')
+            sleep(2)
+            goodbye_message()
+        else:
+            # Deleted files
+            subprocess.call("clear", shell=True, universal_newlines=True)
+            print('Here are the permanently deleted files')
+            print('___________________________________________')
+            print('')
+            file_number = 0
+            for deletedfile in deletedfiles:
+                file_number += 1
+                print(deletedfile)
+            if file_number == 0:
+                print("No deleted file.")
+            print('')
+            print('Total: ' + str(file_number))
+            input('Press any key to continue...')
+            # Moved to trash files
+            subprocess.call("clear", shell=True, universal_newlines=True)
+            print('Here are the files moved to trash')
+            print('___________________________________________')
+            print('')
+            file_number = 0
+            for movedfile in moved_to_trash_files:
+                file_number += 1
+                print(movedfile)
+            if file_number == 0:
+                print("No file got moved to trash.")
+            print('')
+            print('Total: ' + str(file_number))
+
+            input('Press any key to continue...')
+
+            # Kept files
+            for file in deletedfiles:
+                kept_files.remove(file)
+            for file in moved_to_trash_files:
+                kept_files.remove(file)
+
+            subprocess.call("clear", shell=True, universal_newlines=True)
+            print('Here are the kept files')
+            print('___________________________________________')
+            print('')
+            file_number = 0
+            for file in kept_files:
+                file_number += 1
+                print(file)
+            if file_number == 0:
+                print("No file got kept in the folder.")
+            print('')
+            print('Total: ' + str(file_number))
+
+            input('Press any key to quit...')
+            goodbye_message()
+
+
+
+
 
 # Decision responses
 def open_file(file):
@@ -126,12 +194,16 @@ def open_file(file):
     subprocess.run(['open', file_path], check=True)
 
 def move_to_trash_folder(file):
+    global moved_to_trash_files
     file_path = folder_path + '/' +  file
     shutil.move(file_path, destination_folder)
+    moved_to_trash_files.append(file)
 
 def remove(file):
+    global deletedfiles
     file_path = folder_path + '/' +  file
     shutil.rmtree(file_path)
+    deletedfiles.append(file)
 
 def reveal(file):
     file_path = folder_path + '/' +  file
@@ -150,5 +222,47 @@ def display_action(action_to_display):
         subprocess.call("clear", shell=True, universal_newlines=True)
         print(action_to_display + "...")
         sleep(0.15)
+
+
+def goodbye_message():
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("F")
+    sleep(0.2)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Fo")
+    sleep(0.18)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Fol")
+    sleep(0.15)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Fold")
+    sleep(0.11)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Folde")
+    sleep(0.06)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Folder")
+    sleep(0.07)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Folder C")
+    sleep(0.09)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Folder Ch")
+    sleep(0.13)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Folder Che")
+    sleep(0.16)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Folder Check")
+    sleep(0.18)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Folder Checke")
+    sleep(0.19)
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Folder Checker")
+    sleep(2)
+    print('')
+    print('© Anime no Sekai - 2020')
+
 
 initialization()
