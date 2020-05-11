@@ -101,6 +101,7 @@ def create_session_folder():
 # The core of the program, asking the user to take a decision on all files of the folder
 def core():
     subprocess.call("clear", shell=True, universal_newlines=True)
+    # Commands
     print("Commands available")
     print('____________________________')
     print('')
