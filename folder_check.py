@@ -224,7 +224,7 @@ def core():
         print('')
         print('Total: ' + str(file_number))
 
-        end_choice = input('Press any key to quit or save to save this summary to a file...')
+        end_choice = input('Press [any key] to quit or [save] to save this summary to a file... ')
         if end_choice.lower() == 'save' or end_choice.lower() == 'ave' or end_choice.lower() == 'sve' or end_choice.lower() == 'sae' or end_choice.lower() == 'sav' or end_choice.lower() == 'export' or end_choice.lower() == 'download':
             display_action('Creating your file')
             os.chdir(destination_folder)
