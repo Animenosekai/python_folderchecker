@@ -13,6 +13,7 @@ import shutil
 
 folder_path = ''
 folder_check_result_folder = ''
+destination_folder = ''
 
 def initialization():
     global folder_path
@@ -57,6 +58,7 @@ def ask_for_folder_path():
             create_session_folder()
 
 def create_session_folder():
+    global destination_folder
     index_of_last_slash = folder_path.rfind('/')
     folder_name = folder_path[index_of_last_slash:]
     now = datetime.now()
