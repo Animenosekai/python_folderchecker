@@ -107,6 +107,14 @@ def core():
             elif user_input == 'r' or user_input == 'remove':
                 move_to_trash_folder(file)
                 display_action('Moving your file to the trash folder')
+            elif user_input == 'R':
+                print('This file will be deleted permanently')
+                confirmation = input('Type [yes] if you really want to delete it or anything else to abort: ')
+                if confirmation.lower() == 'yes':
+                    remove(file)
+                    display_action('Deleting your file')    
+                else:
+                    user_decision()
             elif user_input == '-R' or user_input == 'removenow':
                 remove(file)
                 display_action('Deleting your file')
@@ -116,9 +124,11 @@ def core():
                 user_decision()
             elif user_input != '':
                 print('No known command detected')
+                print('Next File!')
                 sleep(2)
-            print('Next File!')
-            sleep(1)
+            else:
+                print('Next File!')
+                sleep(1)
         user_decision()
         subprocess.call("clear", shell=True, universal_newlines=True)
         print('Done!')
