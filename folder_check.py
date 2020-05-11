@@ -7,6 +7,7 @@
 # Imports
 from time import sleep
 from datetime import date
+from datetime import datetime
 
 import subprocess
 import os
@@ -14,6 +15,7 @@ import shutil
 
 # Variable declaration
 folder_path = ''
+folder_name = ''
 folder_check_result_folder = ''
 destination_folder = ''
 deletedfiles = []
@@ -56,6 +58,7 @@ def create_session_folder():
     global destination_folder
     global folder_check_result_folder
     global folder_path
+    global folder_name
 
     if folder_path.endswith('/'):
         folder_path = folder_path[:-(1)]
@@ -87,6 +90,23 @@ def create_session_folder():
 
 # The core of the program, asking the user to take a decision on all files of the folder
 def core():
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print("Commands available")
+    print('____________________________')
+    print('')
+    print(" 'o' or 'open'       >    to open the file")
+    print("'rev' or 'reveal'    >    to reveal the file in your file explorer")
+    print(" 'r' or 'remove'     >    to move the file into the trash folder")
+    print(" 'R'                 >    to delete the file permanently")
+    print(" '-R'                >    to delete the file permanently (without confirmation)")
+    print("'stop' or 'cancel'   >    to stop the execution")
+    print('')
+    print(" - Any other key to keep the file in his location - ")
+    print('')
+    print('')
+    print('')
+    input('Press any key to continue...')
+    subprocess.call("clear", shell=True, universal_newlines=True)
     list_of_files_in_folder = os.listdir(folder_path)
     kept_files = list_of_files_in_folder
     for file in list_of_files_in_folder:
@@ -98,7 +118,7 @@ def core():
             continue
         subprocess.call("clear", shell=True, universal_newlines=True)
         def user_decision():
-            print('What do you want to do with the file: ' + file)
+            print('What do you want to do with the file/folder: ' + file)
             user_input = input('> ')
             if user_input == 'o' or user_input == 'open':
                 open_file(file)
@@ -118,10 +138,13 @@ def core():
             elif user_input == '-R' or user_input == 'removenow':
                 remove(file)
                 display_action('Deleting your file')
-            elif user_input == 'reveal' or user_input == 'rev':
+            elif user_input.lower() == 'reveal' or user_input.lower() == 'rev':
                 reveal(file)
                 display_action('Revealing the file in your file explorer')
                 user_decision()
+            elif user_input.lower() == 'stop' or user_input.lower() == 'cancel':
+                display_action('Stoping')
+                goodbye_message()
             elif user_input != '':
                 print('No known command detected')
                 print('Next File!')
@@ -191,7 +214,61 @@ def core():
         print('')
         print('Total: ' + str(file_number))
 
-        input('Press any key to quit...')
+        end_choice = input('Press any key to quit or save to save this summary to a file...')
+        if end_choice.lower() == 'save' or end_choice.lower() == 'ave' or end_choice.lower() == 'sve' or end_choice.lower() == 'sae' or end_choice.lower() == 'sav' or end_choice.lower() == 'export' or end_choice.lower() == 'download':
+            display_action('Creating your file')
+            os.chdir(destination_folder)
+            summary_file = open("summary_file.txt", "w+")
+
+            summary_file.write("Here is the summary of all actions taken on the folder: {} \n".format(folder_name))
+            summary_file.write(datetime.now().strftime("%B, the %d of %Y") + '\n')
+            summary_file.write('\n')
+            summary_file.write('\n')
+
+            summary_file.write('Here are the permanently deleted files\n')
+            summary_file.write('___________________________________________\n')
+            summary_file.write('\n')
+            file_number = 0
+            for deletedfile in deletedfiles:
+                file_number += 1
+                summary_file.write(deletedfile + '\n')
+            if file_number == 0:
+                summary_file.write("No deleted file.\n")
+            summary_file.write('\n')
+            summary_file.write('Total: ' + str(file_number) + '\n')
+
+            summary_file.write('Here are the files moved to trash\n')
+            summary_file.write('___________________________________________\n')
+            summary_file.write('\n')
+            file_number = 0
+            for movedfile in moved_to_trash_files:
+                file_number += 1
+                summary_file.write(movedfile + '\n')
+            if file_number == 0:
+                summary_file.write("No file got moved to trash.\n")
+            summary_file.write('\n')
+            summary_file.write('Total: ' + str(file_number) + '\n')
+
+            summary_file.write('Here are the kept files\n')
+            summary_file.write('___________________________________________\n')
+            summary_file.write('\n')
+            file_number = 0
+            for file in kept_files:
+                file_number += 1
+                summary_file.write(file + '\n')
+            if file_number == 0:
+                summary_file.write("No file got kept in the folder.\n")
+            summary_file.write('\n')
+            summary_file.write('Total: ' + str(file_number) + '\n')
+            summary_file.write('\n')
+            summary_file.write('\n')
+            summary_file.write('Generated by Folder Checker\n')
+            summary_file.write('©Anime no Sekai - 2020')
+            
+            summary_file.close()
+
+        display_action('Opening the result folder')
+        sleep(1)
         goodbye_message()
 
 
@@ -233,8 +310,11 @@ def display_action(action_to_display):
         print(action_to_display + "...")
         sleep(0.15)
 
-
+# Good Bye message
 def goodbye_message():
+    subprocess.call("clear", shell=True, universal_newlines=True)
+    print('Thank you for using this program!')
+    sleep(1)
     subprocess.call("clear", shell=True, universal_newlines=True)
     print("F")
     sleep(0.2)
@@ -273,6 +353,9 @@ def goodbye_message():
     sleep(2)
     print('')
     print('© Anime no Sekai - 2020')
+    print('')
+    sleep(3)
+    quit()
 
 
 initialization()
