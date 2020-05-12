@@ -12,6 +12,7 @@ from datetime import datetime
 import subprocess
 import os
 import shutil
+import sys
 
 # Variable declaration
 folder_path = ''
@@ -24,7 +25,7 @@ kept_files = []
 
 # Initialization
 def initialization():
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("         - Welcome on Folder Checker! -       ")
     print('')
     print("by Anime no Sekai")
@@ -44,18 +45,18 @@ def ask_for_folder_path():
     for index in indexes_of_slash:
         character_after_slash = folder_path[index + 1 - number_of_iterations]
         print(character_after_slash)
-        if character_after_slash == ' ':
+        if character_after_slash == ' ' or character_after_slash == '/':
             folder_path = folder_path[:index - number_of_iterations] + folder_path[index + 1 - number_of_iterations:]
             number_of_iterations += 1
     if folder_path.lower() == 'cancel' or folder_path.lower() == 'stop' or folder_path.lower() == 'quit' or folder_path.lower() == 'exit':
         goodbye_message()
     elif not os.path.isdir(folder_path):
-        subprocess.call("clear", shell=True, universal_newlines=True)
+        os.system('cls' if os.name == 'nt' else 'clear')
         print('You mistyped something in your folder path')
         sleep(1)
         print('Please try again...')
         sleep(2)
-        subprocess.call("clear", shell=True, universal_newlines=True)
+        os.system('cls' if os.name == 'nt' else 'clear')
         print('')
         ask_for_folder_path()
     else:
@@ -100,7 +101,7 @@ def create_session_folder():
 
 # The core of the program, asking the user to take a decision on all files of the folder
 def core():
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     # Commands
     print("Commands available")
     print('____________________________')
@@ -117,7 +118,7 @@ def core():
     print('')
     print('')
     input('Press any key to continue...')
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     list_of_files_in_folder = os.listdir(folder_path)
     kept_files = list_of_files_in_folder
     for file in list_of_files_in_folder:
@@ -127,7 +128,7 @@ def core():
             continue
         if file == '.DS_Store':
             continue
-        subprocess.call("clear", shell=True, universal_newlines=True)
+        os.system('cls' if os.name == 'nt' else 'clear')
         def user_decision():
             print('What do you want to do with the file/folder: ' + file)
             user_input = input('> ')
@@ -164,20 +165,27 @@ def core():
                 print('Next File!')
                 sleep(1)
         user_decision()
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print('Done!')
     sleep(2)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Do you want a summary of all actions?")
     user_choice_on_summary = input("Type [no] for no summary: ")
     if user_choice_on_summary.lower() == 'no':
-        subprocess.call("clear", shell=True, universal_newlines=True)
+        os.system('cls' if os.name == 'nt' else 'clear')
         print('Ok!')
+        display_action('Opening the result folder')
+        subprocess.call(["open", "-R", destination_folder])
         sleep(2)
+        if '-d' in sys.argv or '--debug' in sys.argv:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            input("Enter any key when you are ready to display the debug message...")
+            os.system('cls' if os.name == 'nt' else 'clear')
+            debug()
         goodbye_message()
     else:
         # Deleted files
-        subprocess.call("clear", shell=True, universal_newlines=True)
+        os.system('cls' if os.name == 'nt' else 'clear')
         print('Here are the permanently deleted files')
         print('___________________________________________')
         print('')
@@ -191,7 +199,7 @@ def core():
         print('Total: ' + str(file_number))
         input('Press any key to continue...')
         # Moved to trash files
-        subprocess.call("clear", shell=True, universal_newlines=True)
+        os.system('cls' if os.name == 'nt' else 'clear')
         print('Here are the files moved to trash')
         print('___________________________________________')
         print('')
@@ -212,7 +220,7 @@ def core():
         for file in moved_to_trash_files:
             kept_files.remove(file)
 
-        subprocess.call("clear", shell=True, universal_newlines=True)
+        os.system('cls' if os.name == 'nt' else 'clear')
         print('Here are the kept files')
         print('___________________________________________')
         print('')
@@ -303,6 +311,11 @@ def core():
         display_action('Opening the result folder')
         subprocess.call(["open", "-R", destination_folder])
         sleep(1)
+        if '-d' in sys.argv or '--debug' in sys.argv:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            input("Enter any key when you are ready to display the debug message...")
+            os.system('cls' if os.name == 'nt' else 'clear')
+            debug()
         goodbye_message()
 
 
@@ -334,55 +347,55 @@ def reveal(file):
 # Nice way to display performed actions to the user
 def display_action(action_to_display):
     for _ in range(2):
-        subprocess.call("clear", shell=True, universal_newlines=True)
+        os.system('cls' if os.name == 'nt' else 'clear')
         print(action_to_display + ".")
         sleep(0.15)
-        subprocess.call("clear", shell=True, universal_newlines=True)
+        os.system('cls' if os.name == 'nt' else 'clear')
         print(action_to_display + "..")
         sleep(0.15)
-        subprocess.call("clear", shell=True, universal_newlines=True)
+        os.system('cls' if os.name == 'nt' else 'clear')
         print(action_to_display + "...")
         sleep(0.15)
 
 # Good Bye message
 def goodbye_message():
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print('Thank you for using this program!')
     sleep(1)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("F")
     sleep(0.2)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Fo")
     sleep(0.18)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Fol")
     sleep(0.15)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Fold")
     sleep(0.11)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Folde")
     sleep(0.06)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Folder")
     sleep(0.07)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Folder C")
     sleep(0.09)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Folder Ch")
     sleep(0.13)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Folder Che")
     sleep(0.16)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Folder Check")
     sleep(0.18)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Folder Checke")
     sleep(0.19)
-    subprocess.call("clear", shell=True, universal_newlines=True)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("Folder Checker")
     sleep(2)
     print('')
@@ -391,5 +404,161 @@ def goodbye_message():
     sleep(3)
     quit()
 
+##### Debug
+def debug():
+    print('')
+    print('')
+    print('// START OF DEBUG //')
+    print('')
+    print("If you get the 'ModuleNotFoundError: No module named 'psutil'':  you need to install the psutil module in order to get access to debug")
+    print("If you already have pip installed: enter 'pip install psutil' to easily install it'")
+    print("If not, just download pip as explained on this page: https://pip.pypa.io/en/stable/installing/ and then install the psutil module with 'pip install psutil'")
+    print('')
+    print('')
+    print('Arguments passed: ' + str(sys.argv))
+    print('')
+    print('')
+    print('#VERSIONS')
+    print('Folder Check v.0.9 Beta by Anime no Sekai')
+    print(sys.version)
+    print('')
+    print('')
+    print('#SYSTEM INFORMATION')
+    print("System information code credit: PythonCode")
+    print("https://www.thepythoncode.com/article/get-hardware-system-information-python")
+    print('')
+
+    import psutil
+    import platform
+    from datetime import datetime
+
+    def get_size(bytes, suffix="B"):
+        """
+        Scale bytes to its proper format
+        e.g:
+            1253656 => '1.20MB'
+            1253656678 => '1.17GB'
+        """
+        factor = 1024
+        for unit in ["", "K", "M", "G", "T", "P"]:
+            if bytes < factor:
+                return f"{bytes:.2f}{unit}{suffix}"
+            bytes /= factor
+
+
+    print("="*40, "System Information", "="*40)
+    uname = platform.uname()
+    print(f"System: {uname.system}")
+    print(f"Node Name: {uname.node}")
+    print(f"Release: {uname.release}")
+    print(f"Version: {uname.version}")
+    print(f"Machine: {uname.machine}")
+    print(f"Processor: {uname.processor}")
+
+    # Boot Time
+    print("="*40, "Boot Time", "="*40)
+    boot_time_timestamp = psutil.boot_time()
+    bt = datetime.fromtimestamp(boot_time_timestamp)
+    print(f"Boot Time: {bt.year}/{bt.month}/{bt.day} {bt.hour}:{bt.minute}:{bt.second}")
+
+    # let's print CPU information
+    print("="*40, "CPU Info", "="*40)
+    # number of cores
+    print("Physical cores:", psutil.cpu_count(logical=False))
+    print("Total cores:", psutil.cpu_count(logical=True))
+    # CPU frequencies
+    cpufreq = psutil.cpu_freq()
+    print(f"Max Frequency: {cpufreq.max:.2f}Mhz")
+    print(f"Min Frequency: {cpufreq.min:.2f}Mhz")
+    print(f"Current Frequency: {cpufreq.current:.2f}Mhz")
+    # CPU usage
+    print("CPU Usage Per Core:")
+    for i, percentage in enumerate(psutil.cpu_percent(percpu=True)):
+        print(f"Core {i}: {percentage}%")
+    print(f"Total CPU Usage: {psutil.cpu_percent()}%")
+
+    # Memory Information
+    print("="*40, "Memory Information", "="*40)
+    # get the memory details
+    svmem = psutil.virtual_memory()
+    print(f"Total: {get_size(svmem.total)}")
+    print(f"Available: {get_size(svmem.available)}")
+    print(f"Used: {get_size(svmem.used)}")
+    print(f"Percentage: {svmem.percent}%")
+    print("="*20, "SWAP", "="*20)
+    # get the swap memory details (if exists)
+    swap = psutil.swap_memory()
+    print(f"Total: {get_size(swap.total)}")
+    print(f"Free: {get_size(swap.free)}")
+    print(f"Used: {get_size(swap.used)}")
+    print(f"Percentage: {swap.percent}%")
+
+    # Disk Information
+    print("="*40, "Disk Information", "="*40)
+    print("Partitions and Usage:")
+    # get all disk partitions
+    partitions = psutil.disk_partitions()
+    for partition in partitions:
+        print(f"=== Device: {partition.device} ===")
+        print(f"  Mountpoint: {partition.mountpoint}")
+        print(f"  File system type: {partition.fstype}")
+        try:
+            partition_usage = psutil.disk_usage(partition.mountpoint)
+        except PermissionError:
+            # this can be catched due to the disk that
+            # isn't ready
+            continue
+        print(f"  Total Size: {get_size(partition_usage.total)}")
+        print(f"  Used: {get_size(partition_usage.used)}")
+        print(f"  Free: {get_size(partition_usage.free)}")
+        print(f"  Percentage: {partition_usage.percent}%")
+    # get IO statistics since boot
+    disk_io = psutil.disk_io_counters()
+    print(f"Total read: {get_size(disk_io.read_bytes)}")
+    print(f"Total write: {get_size(disk_io.write_bytes)}")
+
+    # Network information
+    print("="*40, "Network Information", "="*40)
+
+    # Remove the pair of ''' if you want to have your IP and MAC address (it will be added to the troubleshoot file if you output everything to a troubleshoot file > troubleshoot.txt)
+    '''
+    # get all network interfaces (virtual and physical)
+    if_addrs = psutil.net_if_addrs()
+    for interface_name, interface_addresses in if_addrs.items():
+        for address in interface_addresses:
+            print(f"=== Interface: {interface_name} ===")
+            if str(address.family) == 'AddressFamily.AF_INET':
+                print(f"  IP Address: {address.address}")
+                print(f"  Netmask: {address.netmask}")
+                print(f"  Broadcast IP: {address.broadcast}")
+            elif str(address.family) == 'AddressFamily.AF_PACKET':
+                print(f"  MAC Address: {address.address}")
+                print(f"  Netmask: {address.netmask}")
+                print(f"  Broadcast MAC: {address.broadcast}")
+    '''
+    # get IO statistics since boot
+    net_io = psutil.net_io_counters()
+    print(f"Total Bytes Sent: {get_size(net_io.bytes_sent)}")
+    print(f"Total Bytes Received: {get_size(net_io.bytes_recv)}")
+
+    print('')
+    print('')
+    print('')
+    print('#GLOBAL VARIABLES')
+    print('')
+    print('1. ' + folder_path)
+    print('2. ' + folder_name)
+    print('3. ' + folder_check_result_folder)
+    print('4. ' + destination_folder)
+    print('5. ' + str(deletedfiles))
+    print('6. ' + str(moved_to_trash_files))
+    print('7. ' + str(kept_files))
+    
+    print('')
+    print('')
+    print('')
+    print('// END OF DEBUG //')
+    print('')
+    input("Enter any key to quit...")
 
 initialization()
