@@ -13,6 +13,7 @@ import subprocess
 import os
 import shutil
 import sys
+import platform
 
 # Variable declaration
 folder_path = ''
@@ -130,6 +131,8 @@ def core():
             continue
         os.system('cls' if os.name == 'nt' else 'clear')
         def user_decision():
+            show_commands()
+            print('')
             print('What do you want to do with the file/folder: ' + file)
             user_input = input('> ')
             if user_input == 'o' or user_input == 'open':
@@ -146,24 +149,25 @@ def core():
                     remove(file)
                     display_action('Deleting your file')    
                 else:
+                    os.system('cls' if os.name == 'nt' else 'clear')
                     user_decision()
             elif user_input == '-R' or user_input == 'removenow':
                 remove(file)
                 display_action('Deleting your file')
             elif user_input.lower() == 'reveal' or user_input.lower() == 'rev':
                 reveal(file)
-                display_action('Revealing the file in your file explorer')
                 user_decision()
             elif user_input.lower() == 'stop' or user_input.lower() == 'cancel' or user_input.lower() == 'exit' or user_input.lower() == 'quit':
                 display_action('Stoping')
                 goodbye_message()
             elif user_input != '':
                 print('No known command detected')
+                sleep(1)
                 print('Next File!')
-                sleep(2)
+                sleep(0.5)
             else:
                 print('Next File!')
-                sleep(1)
+                sleep(0.5)
         user_decision()
     os.system('cls' if os.name == 'nt' else 'clear')
     print('Done!')
@@ -323,9 +327,22 @@ def core():
 
 
 # Decision responses
+def show_commands():
+    print(" 'o' or 'open'       >    to open the file")
+    print("'rev' or 'reveal'    >    to reveal the file in your file explorer")
+    print(" 'r' or 'remove'     >    to move the file into the trash folder")
+    print(" 'R'                 >    to delete the file permanently")
+    print(" '-R'                >    to delete the file permanently (without confirmation)")
+    print("'stop' or 'cancel'   >    to stop the execution")
+
 def open_file(file):
     file_path = folder_path + '/' +  file
-    subprocess.run(['open', file_path], check=True)
+    if platform.system() == 'Darwin':       # macOS
+        subprocess.call(('open', file_path))
+    elif platform.system() == 'Windows':    # Windows
+        os.startfile(file_path)
+    else:                                   # linux variants
+        subprocess.call(('xdg-open', file_path))
 
 def move_to_trash_folder(file):
     global moved_to_trash_files
@@ -341,7 +358,13 @@ def remove(file):
 
 def reveal(file):
     file_path = folder_path + '/' +  file
-    subprocess.call(["open", "-R", file_path])
+    if platform.system() == 'Windows':       # macOS
+        print('Sorry, Windows does not support revealing files in the file explorer')
+        display_action('Opening the folder instead')
+        os.startfile(folder_path)
+    else:
+        display_action('Revealing the file in your file explorer')
+        subprocess.call(["open", "-R", file_path])
 
 
 # Nice way to display performed actions to the user
@@ -419,7 +442,7 @@ def debug():
     print('')
     print('')
     print('#VERSIONS')
-    print('Folder Check v.0.9 Beta by Anime no Sekai')
+    print('Folder Check v.0.9.5 Beta by Anime no Sekai')
     print(sys.version)
     print('')
     print('')
