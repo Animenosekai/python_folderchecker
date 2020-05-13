@@ -122,12 +122,16 @@ def core():
     os.system('cls' if os.name == 'nt' else 'clear')
     list_of_files_in_folder = os.listdir(folder_path)
     kept_files = list_of_files_in_folder
-    for file in list_of_files_in_folder:
+    for file in list_of_files_in_folder: 
         if file == __file__:
             continue
         if file == 'Folder Check':
             continue
         if file == '.DS_Store':
+            continue
+        if file == '.gitattributes':
+            continue
+        if file == '.git':
             continue
         os.system('cls' if os.name == 'nt' else 'clear')
         def user_decision():
