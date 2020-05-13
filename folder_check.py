@@ -140,24 +140,30 @@ def core():
             print('What do you want to do with the file/folder: ' + file)
             user_input = input('> ')
             if user_input == 'o' or user_input == 'open':
-                open_file(file)
                 display_action('Opening you file')
+                open_file(file)
                 user_decision()
             elif user_input == 'r' or user_input == 'remove':
-                move_to_trash_folder(file)
                 display_action('Moving your file to the trash folder')
+                end_point = move_to_trash_folder(file)
+                if end_point == 'The user decided not to move this file to the trash.':
+                    user_decision()
             elif user_input == 'R':
                 print('This file will be deleted permanently')
                 confirmation = input('Type [yes] if you really want to delete it or anything else to abort: ')
                 if confirmation.lower() == 'yes':
-                    remove(file)
                     display_action('Deleting your file')    
+                    end_point = remove(file)
+                    if end_point == 'The user decided not to erase this file.':
+                        user_decision()
                 else:
                     os.system('cls' if os.name == 'nt' else 'clear')
                     user_decision()
             elif user_input == '-R' or user_input == 'removenow':
-                remove(file)
                 display_action('Deleting your file')
+                end_point = remove(file)
+                if end_point == 'The user decided not to erase this file.':
+                    user_decision()
             elif user_input.lower() == 'reveal' or user_input.lower() == 'rev':
                 reveal(file)
                 user_decision()
@@ -351,14 +357,84 @@ def open_file(file):
 def move_to_trash_folder(file):
     global moved_to_trash_files
     file_path = folder_path + '/' +  file
-    shutil.move(file_path, destination_folder)
-    moved_to_trash_files.append(file)
+    file_extension = extension(file)
+    if file_extension in type_system_data():
+        print('A system file was detected.')
+        sleep(1)
+        print('Moving this file to the trash might not work')
+        sleep(1)
+        user_input = input('Do you still wanna move this file to the trash? ([yes] or any other key to abort) ')
+        if user_input.lower() == 'yes':
+            try:
+                shutil.move(file_path, destination_folder)
+                moved_to_trash_files.append(file)
+            except:
+                print('A problem occured while moving your file to the trash folder.')
+                sleep(1)
+                print('The file will be kept in his current location')
+                sleep(1)
+        else:
+            return 'The user decided not to move this file to the trash.'
+    else:
+        try:
+            shutil.move(file_path, destination_folder)
+            moved_to_trash_files.append(file)
+        except:
+            print('A problem occured while moving your file to the trash folder.')
+            sleep(1)
+            print('The file will be kept in his current location')
+            sleep(1)
 
 def remove(file):
     global deletedfiles
     file_path = folder_path + '/' +  file
-    shutil.rmtree(file_path)
-    deletedfiles.append(file)
+    file_extension = extension(file)
+    if file_extension in type_system_data():
+        print('A system file was detected.')
+        sleep(1)
+        print('Erasing might not work on this file')
+        sleep(1)
+        user_input = input('Do you still wanna try to erase it? ([yes] or any other key to abort) ')
+        if user_input.lower() == 'yes':
+            if os.path.isdir(file_path):
+                try:
+                    shutil.rmtree(file_path)
+                    deletedfiles.append(file)
+                except:
+                    print('An error occured while deleting your folder.')
+                    sleep(1)
+                    print('The folder will be kept in his current location')
+                    sleep(1)
+            else:
+                try:
+                    os.remove(file_path)
+                    deletedfiles.append(file)
+                except:
+                    print('An error occured while deleting your file.')
+                    sleep(1)
+                    print('The file will be kept in his current location')
+                    sleep(1)
+        else:
+            return 'The user decided not to erase this file.'
+    else:
+        if os.path.isdir(file_path):
+            try:
+                shutil.rmtree(file_path)
+                deletedfiles.append(file)
+            except:
+                print('An error occured while deleting your folder.')
+                sleep(1)
+                print('The folder will be kept in his current location')
+                sleep(1)
+        else:
+            try:
+                os.remove(file_path)
+                deletedfiles.append(file)
+            except:
+                print('An error occured while deleting your file.')
+                sleep(1)
+                print('The file will be kept in his current location')
+                sleep(1)
 
 def reveal(file):
     file_path = folder_path + '/' +  file
@@ -587,5 +663,23 @@ def debug():
     print('// END OF DEBUG //')
     print('')
     input("Enter any key to quit...")
+
+
+
+###### DATA ######
+### Data from my script 'file_info.py'
+### Consider checking it out too ☆(･ω･*)ゞ
+###
+
+def extension(file):
+    file_extension = ''
+    filename, file_extension = os.path.splitext(file)
+    return(file_extension)
+
+def type_system_data():
+    data = ['.hiv', '.mapimail', '.73u', '.bash_history', '.admx', '.ebd', '.reg', '.iconpackage', '.regtrans-ms', '.htt', '.cur', '.searchconnector-ms', '.aml', '.pck', '.sdt', '.ani', '.dll', '.deskthemepack', '.dvd', '.desklink', '.lnk', '.ftf', '.clb', '.scr', '.dmp', '.cpl', '.icns', '.pk2', '.ion', '.nfo', '.inf_loc', '.mdmp', '.nt', '.library-ms', '.msc', '.theme', '.cab', '.wdgt', '.ico', '.sys', '.asec', '.sfcache', '.rc1', '.qvm', '.manifest', '.log1', '.000', '.prop', '.dat', '.fota', '.h1s', '.cannedsearch', '.cgz', '.vx_', '.bin', '.etl', '.mi4', '.rmt', '.lockfile', '.drpm', '.ci', '.bashrc', '.edj', '.pat', '.vga', '.zone.identifier', '.ffx', '.pwl', '.mui', '.sys', '.mobileconfig', '.mtz', '.profile', '.mlc', '.bash_profile', '.3fs', '.bcd', '.wdf', '.bio', '.msstyles', '.cm0013', '.msp', '.lfs', '.0', '.bom', '.sdb', '.c32', '.elf', '.pnf', '.dimax', '.group', '.pdr', '.mbr', '.dev', '.webpnp', '.hhk', '.208', '.efi', '.pit', '.adm', '.diagcab', '.ins', '.drv', '.firm', '.job', '.pol', '.log2', '.cnt', '.ime', '.prefpane', '.savedsearch', '.img3', '.ioplist', '.cat', '.ppd', '.dthumb', '.vxd', '.hcd', '.wpx', '.dit', '.sbf', '.key', '.fx', '.prf', '.8xu', '.lst', '.adml', '.386', '.mbn', '.cmo', '.cpq', '.grp', '.swp', '.thumbnails', '.ffo', '.shsh', '.aos', '.ffa', '.schemas', '.8cu', '.tdz', '.sbn', '.itemdata-ms', '.chg', '.timer', '.mod', '.hdmp', '.sqm', '.hlp', '.flg', '.dfu', '.idx', '.odex', '.chk', '.blf', '.shd', '.2fs', '.cpi', '.trx_dll', '.fpbf', '.pro', '.tha', '.printerexport', '.icl', '.crash', '.pfx', '.wer', '.adv', '.nb0', '.cht', '.ko', '.hhc', '.fl1', '.atahd', '.nbh', '.msstyle', '.ps2', '.prt', '.mui_cccd5ae0', '.ks', '.im4p', '.ruf', '.metadata_never_index', '.saver', '.str', '.mum', '.xrm-ms', '.kext', '.customdestinations-ms', '.uce', '.pid', '.xfb', '.rs', '.fid', '.hsh', '.chs', '.bk2', '.idi', '.sb', '.gmmp', '.hpj', '.rfw', '.spl', '.efires', '.configprofile', '.provisionprofile', '.escopy', '.service', '.ifw', '.mem', '.ta', '.lpd', '.cap', '.cpr', '.so.0', '.grl', '.scf', '.vgd', '.trashes', '.nls', '.bmk', '.automaticdestinations-ms', '.kbd', '.devicemetadata-ms', '.dyc', '.me', '.ps1', '.evtx', '.qky', '.ppm', '.fts', '.ntfs', '.dss', '.lpd', '.wph', '.iptheme', '.jpn', '.rco', '.mydocs', '.ipod', '.bud', '.wgz', '.dlx', '.spx', '.scap', '.bk1', '.evt', '.cdmp', '.mmv', '.panic', '.diagcfg', '.kor', '.rcv', '.ftg', '.ius', '.emerald', '.networkconnect', '.reglnk', '.ffl', '.hve', '.plasmoid', '.sin', '.ann', '.help', '.internetconnect', '.diagpkg', '.rc2', '.rvp', '.its']
+    return data
+
+### END OF DATA ###
 
 initialization()
