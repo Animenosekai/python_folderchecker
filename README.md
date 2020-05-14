@@ -9,6 +9,11 @@
  ### Dependencies
  - Python 3 (downloadable at https://www.python.org/downloads/)
  
+ ### Platform/Working OS
+ - This python script is cross-platform and has been tested on macOS and Windows.
+ 
+ However, some functionnalities might not be available on every operating system (i.e. `reveal` on Windows which will just open the folder you're checking)
+ 
  ### Usage
  Folder Checker (for Python) usage is very simple.
  
