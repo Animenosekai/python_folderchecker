@@ -6,22 +6,22 @@
  - Unzip if needed
  - You can now directly open `folder_check.py` and start reviewing your folders!
  
+> (On macOS you might need to open a terminal window and type `python3 <pathtothescript>` or navigate to the script using the `cd` command and enter `python3 folder_check.py`)
+ 
  ### Dependencies
  - Python 3 (downloadable at https://www.python.org/downloads/)
  
  ### Platform/Working OS
  - This python script is cross-platform and has been tested on macOS and Windows.
  
- However, some functionnalities might not be available on every operating system (i.e. `reveal` on Windows which will just open the folder you're checking)
+ > However, some functionnalities might not be available on every operating system (i.e. `reveal` on Windows which will just open the folder you're checking)
  
  ### Usage
  Folder Checker (for Python) usage is very simple.
  
- Open the file (with Python) and you will be prompted to enter the path of the folder you want to review (tips: you can also simply drag and drop the folder into the terminal).
- 
- Press `enter` to continue after looking at the available commands.
- 
- Decide what you want to do for each file and folder of the folder!
+ - Open the file (with Python) and you will be prompted to enter the path of the folder you want to review (tips: you can also simply drag and drop the folder into the terminal).
+ - Press `enter` to continue after looking at the available commands.
+ - Decide what you want to do for each file and folder of the folder!
  
  
  ### Commands when deciding what to do with a file/folder
