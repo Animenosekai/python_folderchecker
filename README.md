@@ -6,7 +6,7 @@
  - Unzip if needed
  - You can now directly open `folder_check.py` and start reviewing your folders!
  
-> (On macOS you might need to open a terminal window and type `python3 <pathtothescript>` or navigate to the script using the `cd` command and enter `python3 folder_check.py`)
+> (On macOS you have a special script to open it `Open Folder Check on macOS` because you can't just double click it (it could prompt you to a script editor) )
  
  ### Dependencies
  - Python 3 (downloadable at https://www.python.org/downloads/)
