@@ -667,7 +667,7 @@ def debug():
 
 
 ###### DATA ######
-### Data from my script 'file_info.py'
+### Data from my library filecenter
 ### Consider checking it out too ☆(･ω･*)ゞ
 ###
 
