@@ -39,6 +39,7 @@ def initialization():
         ask_for_folder_path()
     else:
         folder_path = working_dir()
+        create_session_folder()
 
 # Asking for the folder to check
 def ask_for_folder_path():
