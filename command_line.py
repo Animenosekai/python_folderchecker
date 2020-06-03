@@ -1,4 +1,4 @@
 import foldercheck
 
 def main():
-    foldercheck.initialization()
+    print(foldercheck.initialization())
