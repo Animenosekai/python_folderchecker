@@ -38,6 +38,12 @@ def initialization():
         print('')
         ask_for_folder_path()
     else:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("         - Welcome on Folder Checker! -       ")
+        print('')
+        print("by Anime no Sekai")
+        print('')
+        print('')
         folder_path = working_dir()
         create_session_folder()
 
