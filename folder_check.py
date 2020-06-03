@@ -15,6 +15,8 @@ import shutil
 import sys
 import platform
 
+from lifeeasy import working_dir
+
 # Variable declaration
 folder_path = ''
 folder_name = ''
@@ -26,13 +28,17 @@ kept_files = []
 
 # Initialization
 def initialization():
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print("         - Welcome on Folder Checker! -       ")
-    print('')
-    print("by Anime no Sekai")
-    print('')
-    print('')
-    ask_for_folder_path()
+    global folder_path
+    if __name__ == "__main__":
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("         - Welcome on Folder Checker! -       ")
+        print('')
+        print("by Anime no Sekai")
+        print('')
+        print('')
+        ask_for_folder_path()
+    else:
+        folder_path = working_dir()
 
 # Asking for the folder to check
 def ask_for_folder_path():
