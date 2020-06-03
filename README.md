@@ -2,6 +2,12 @@
  A python script which lets you review each file of a folder and decide wether you want to keep the file, put it in a "trash" folder or delete it permanently.
  
  ### Installation
+ 
+ #### WITH PIP
+ - Open your command-prompt/terminal
+ - Run `pip install foldercheck`
+ 
+ #### MANUALLY
  - Download or clone this repository
  - Unzip if needed
  - You can now directly open `folder_check.py` and start reviewing your folders!
@@ -19,6 +25,11 @@
  ### Usage
  Folder Checker (for Python) usage is very simple.
  
+#### WHILE INSTALLED WITH PIP
+- Open your command-prompt/terminal in the folder you want to check (or `cd` into it)
+- type `foldercheck`
+
+#### WHILE INSTALLED MANUALLY
  - Open the file (with Python) and you will be prompted to enter the path of the folder you want to review (tips: you can also simply drag and drop the folder into the terminal).
  - Press `enter` to continue after looking at the available commands.
  - Decide what you want to do for each file and folder of the folder!
