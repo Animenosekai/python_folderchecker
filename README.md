@@ -1,6 +1,8 @@
 # python_folderchecker
  A python script which lets you review each file of a folder and decide wether you want to keep the file, put it in a "trash" folder or delete it permanently.
  
+ [![PyPI version](https://badge.fury.io/py/foldercheck.svg)](https://badge.fury.io/py/foldercheck)
+ 
  ### Installation
  
  #### WITH PIP
